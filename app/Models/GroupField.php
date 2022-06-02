@@ -10,4 +10,9 @@ class GroupField extends Model
     use HasFactory;
 
     protected $fillable = ['title'];
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class); 
+    }
 }

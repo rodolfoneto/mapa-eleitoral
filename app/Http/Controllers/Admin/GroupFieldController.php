@@ -57,10 +57,14 @@ class GroupFieldController extends Controller
      */
     public function show($id)
     {
-        if(!$grooupField = $this->repository->find($id)) {
+        if(!$groupField = $this->repository->find($id)) {
             return redirect()->back()->with('error', 'GC não encontrado');
         }
-        return view('admin.pages.group-fields.show', ['groupField' => $grooupField]);
+        $fields = $groupField->fields()->get();
+        return view('admin.pages.group-fields.show', [
+            'groupField' => $groupField,
+            'fields' => $fields,
+        ]);
     }
 
     /**

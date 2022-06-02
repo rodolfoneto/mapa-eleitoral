@@ -20,8 +20,8 @@
                     <form action="{{ route('groupfields.destroy', $groupField->id) }}" class="form form-inline" method="POST">
                         @csrf
                         @method('DELETE')
-                        <a href="{{ route('groupfields.edit', $groupField->id) }}" class="btn btn-info ml1" title="Editar o GF {{ $groupField->title }}"><i class="fas fa-pen"></i></a>
-                        <a href="{{ route('groupfields.show', $groupField->id) }}" class="btn btn-info ml1" title="Editar o GF {{ $groupField->title }}"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('groupfields.edit', $groupField->id) }}" class="btn btn-info mr-1" title="Editar o GF {{ $groupField->title }}"><i class="fas fa-pen"></i></a>
+                        <a href="{{ route('groupfields.show', $groupField->id) }}" class="btn btn-info mr-1" title="Editar o GF {{ $groupField->title }}"><i class="fas fa-eye"></i></a>
                         <button type="submit" class="btn btn-danger" title="Deletar o GF {{ $groupField->title }}"><i class="fas fa-minus-circle"></i></button>
                     </form>
                 </td>
