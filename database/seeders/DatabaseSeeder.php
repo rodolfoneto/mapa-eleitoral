@@ -21,19 +21,5 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-        // DB::table('states')->insert([
-        //     'name' => 'Pernambuco',
-        //     'uf' => 'PE',
-        // ]);
-
-        DB::table('cities')->insert([
-            'name' => 'Recife',
-            'state_id' => 1,
-            'tse_id' => 'REC',
-            'mayor_name' => 'Prefeito de Recife',
-            'habitant_qty' => 1500000,
-            'electures_qty' => 400000,
-        ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateCityRequest;
 use App\Models\City;
+use App\Models\GroupField;
 use App\Models\State;
 
 class CityController extends Controller
@@ -12,11 +13,13 @@ class CityController extends Controller
 
     protected City $repository;
     protected State $state;
+    protected GroupField $groupFields;
 
-    public function __construct(City $city, State $state)
+    public function __construct(City $city, State $state, GroupField $groupFields)
     {
         $this->repository = $city;
         $this->state = $state;
+        $this->groupFields = $groupFields;
     }
 
     /**
@@ -71,7 +74,8 @@ class CityController extends Controller
         if(!$city = $this->repository->find($id)) {
             return redirect()->route('cities.index')->with('error', 'Cidade não encontrada');
         }
-        return view('admin.pages.cities.show', ['city' => $city]);
+        $groupFields = $this->groupFields->all();
+        return view('admin.pages.cities.show', ['city' => $city, 'groupFields' => $groupFields]);
     }
 
     /**

@@ -15,4 +15,23 @@ class Field extends Model
     {
         return $this->belongsTo(GroupField::class);
     }
+
+    public function fieldValue()
+    {
+        return $this->hasMany(FieldValue::class);
+    }
+
+    public function fieldValueByCity(City $city)
+    {
+        return FieldValue::
+            where('city_id', $city->id)
+            ->where('field_id', $this->id)->first();
+    }
+
+    public function fieldValueByFieldAndCity($fieldId, City $city)
+    {
+        return FieldValue::
+            where('city_id', $city->id)
+            ->where('field_id', $fieldId)->first();
+    }
 }

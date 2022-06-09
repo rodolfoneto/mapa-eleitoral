@@ -10,7 +10,7 @@
 
 <input type="hidden" name="state_id" value="1">
 
-<x-adminlte-input name="tse_id" type="text" placeholder="Identificação do TSE"  value="{{ $city->tse_id ?? old('tse_id') }}"/>
+<x-adminlte-input name="ibge_cod" type="text" placeholder="Código IBGE"  value="{{ $city->ibge_cod ?? old('ibge_cod') }}"/>
 
 <x-adminlte-input name="mayor_name" type="text" placeholder="Nome do Prefeito" value="{{ $city->mayor_name ?? old('mayor_name') }}"/>
 
