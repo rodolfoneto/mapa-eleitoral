@@ -29,13 +29,25 @@ class CityController extends Controller
      */
     public function index()
     {
-        $cities = $this->repository->paginate();
+        $query = $this->repository;
+        $filters = [];
+        if($startWith = filter_input(INPUT_GET, 'startWith')) {
+            $query = $query->where('name', 'LIKE', "{$startWith}%");
+            $filters['startWith'] = $startWith;
+        }
+        if($q = filter_input(INPUT_GET, 'q')) {
+            $query = $query
+                ->where('name', 'LIKE', "%{$q}%");
+            $filters['q'] = $q;
+        }
+        $cities = $query->paginate();
         $states = $this->state->all();
 
         return view('admin.pages.cities.index',
             [
                 'cities' => $cities,
                 'states' => $states,
+                'filters' => $filters,
             ]
         );
     }

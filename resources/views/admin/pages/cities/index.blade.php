@@ -10,7 +10,18 @@
     @include('admin.includes.alert')
 <div class="card">
     <div class="card-header">
-:D
+        <form>
+            <x-adminlte-input name="q" placeholder="termo" igroup-size="md" value="{{ $filters['q'] ?? '' }}">
+                <x-slot name="appendSlot">
+                    <x-adminlte-button theme="outline-danger" label="Ir!"/>
+                </x-slot>
+                <x-slot name="prependSlot">
+                    <div class="input-group-text text-danger">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+        </form>
     </div>
     <div class="card-body">
         <table class="table">
@@ -37,7 +48,11 @@
         </table>
     </div>
     <div class="card-footer">
-        {!! $cities->links() !!}
+        @if (!empty($filters))
+            {!! $cities->appends($filters)->links() !!}
+        @else
+            {!! $cities->links() !!}
+        @endif
     </div>
 </div>
 @stop
