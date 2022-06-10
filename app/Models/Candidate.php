@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Candidate extends Model
 {
@@ -14,5 +15,15 @@ class Candidate extends Model
     public function responsibility()
     {
         return $this->belongsTo(Responsibility::class);
+    }
+
+    public function cities()
+    {
+        return $this->belongsToMany(City::class);
+    }
+
+    public function votesByCityId($cityId)
+    {
+        return CityCandidate::where('city_id', $cityId)->where('candidate_id', $this->id)->first();
     }
 }

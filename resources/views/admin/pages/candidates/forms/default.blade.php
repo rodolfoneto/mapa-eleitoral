@@ -1,6 +1,6 @@
 @section('plugins.BootstrapSwitch', true)
 
-<x-adminlte-input name="name" type="text" placeholder="Nome do Candidato" value="{{ old('name') ?? $candidate->name }}" />
+<x-adminlte-input name="name" type="text" placeholder="Nome do Candidato" value="{{ $candidate->name ?? old('name') }}" />
 
 <x-adminlte-input name="political_party" type="text" placeholder="Partido Político" value="{{ $candidate->political_party ?? old('political_party') }}" oninput="this.value = this.value.toUpperCase()" />
 

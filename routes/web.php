@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\{
     CandidateController,
+    CityCandidateController,
     CityController,
     ResponsibilityController,
     GroupFieldController,
@@ -32,6 +33,7 @@ Route::resource('admin/groupfields', GroupFieldController::class);
 Route::resource('admin/responsibilities', ResponsibilityController::class);
 Route::resource('admin/candidates', CandidateController::class);
 Route::post('admin/cities/{id}/values', [FieldValueController::class, 'store'])->name('fieldvalues.store');
+Route::post('admin/cities/{id}/votes', [CityCandidateController::class, 'store'])->name('cities.candidates.store');
 Route::resource('admin/cities', CityController::class);
 
 Auth::routes();
