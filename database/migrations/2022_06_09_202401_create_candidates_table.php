@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('political_party', 10)->nullable(true);
             $table->boolean('main')->default(0);
             $table->timestamps();
+
+            $table->foreign('responsibility_id')->references('id')->on('responsibilities');
         });
     }
 
