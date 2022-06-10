@@ -41,6 +41,7 @@
             Campos Personalizados
         </div>
         <form action="{{ route('fieldvalues.store', $city->id) }}" method="post">
+            @csrf
             <div class="card-body">
                 @foreach ($groupFields as $groupField)
                     <p><b>{{ $groupField->title }}</b></p>
