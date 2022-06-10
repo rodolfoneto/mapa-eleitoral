@@ -261,6 +261,13 @@ return [
             // 'label_color' => 'success',
         ],
         [
+            'text'        => 'Candidatos',
+            'url'         => 'admin/candidates',
+            'icon'        => 'fas fa-layer-group',
+            // 'label'       => 4,
+            // 'label_color' => 'success',
+        ],
+        [
             'text'        => 'pages',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
@@ -369,6 +376,16 @@ return [
     */
 
     'plugins' => [
+        'BootstrapSwitch' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
+                ],
+            ],
+        ],
         'Datatables' => [
             'active' => false,
             'files' => [

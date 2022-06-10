@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\{
+    CandidateController,
     CityController,
     ResponsibilityController,
     GroupFieldController,
@@ -29,6 +30,7 @@ Route::post('admin/groupfields/{id}/fields', [FieldController::class, 'store'])-
 Route::delete('admin/groupfields/{id}/fields/{fieldId}', [FieldController::class, 'destroy'])->name('fields.delete');
 Route::resource('admin/groupfields', GroupFieldController::class);
 Route::resource('admin/responsibilities', ResponsibilityController::class);
+Route::resource('admin/candidates', CandidateController::class);
 Route::post('admin/cities/{id}/values', [FieldValueController::class, 'store'])->name('fieldvalues.store');
 Route::resource('admin/cities', CityController::class);
 
