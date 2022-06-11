@@ -1,14 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\{
-    CandidateController,
-    CityCandidateController,
-    CityController,
-    ResponsibilityController,
-    GroupFieldController,
-    FieldValueController,
-    FieldController
-};
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,19 +16,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('', [HomeController::class, 'index'])->name('home');
+
+Route::prefix('admin')
+    ->namespace('App\\Http\\Controllers\\Admin')
+    ->middleware('auth')
+    ->group(function() {
+
+    Route::get('/', [AdminHomeController::class, 'index'])->name('admin.home');
+    Route::post('groupfields/{id}/fields', [FieldController::class, 'store'])->name('fields.store');
+    Route::delete('groupfields/{id}/fields/{fieldId}', [FieldController::class, 'destroy'])->name('fields.delete');
+    Route::resource('groupfields', GroupFieldController::class);
+    Route::resource('responsibilities', ResponsibilityController::class);
+    Route::resource('candidates', CandidateController::class);
+    Route::post('cities/{id}/values', [FieldValueController::class, 'store'])->name('fieldvalues.store');
+    Route::post('cities/{id}/votes', [CityCandidateController::class, 'store'])->name('cities.candidates.store');
+    Route::resource('cities', CityController::class);
+
 });
 
-Route::post('admin/groupfields/{id}/fields', [FieldController::class, 'store'])->name('fields.store');
-Route::delete('admin/groupfields/{id}/fields/{fieldId}', [FieldController::class, 'destroy'])->name('fields.delete');
-Route::resource('admin/groupfields', GroupFieldController::class);
-Route::resource('admin/responsibilities', ResponsibilityController::class);
-Route::resource('admin/candidates', CandidateController::class);
-Route::post('admin/cities/{id}/values', [FieldValueController::class, 'store'])->name('fieldvalues.store');
-Route::post('admin/cities/{id}/votes', [CityCandidateController::class, 'store'])->name('cities.candidates.store');
-Route::resource('admin/cities', CityController::class);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+/**
+ * Auth
+ */
+Auth::routes(['register' => false]);
