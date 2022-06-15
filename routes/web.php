@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CityCandidateController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use Illuminate\Support\Facades\Auth;
