@@ -25,7 +25,7 @@ class StoreUpdateCityRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:100',
-            'tse_id' => 'required|min:2|max:50',
+            'ibge_cod' => 'required',
             'mayor_name' => 'min:2|max:50',
         ];
     }

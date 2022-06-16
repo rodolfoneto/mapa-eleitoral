@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    
+    @include('admin.includes.alert')
     <form action="{{ route('cities.update', $city->id) }}" method="post" class="form">
         @method('PUT')
         @csrf

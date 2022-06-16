@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('city', 'App\Http\Controllers\Api\CityApiController@index')->name('api.city.index');
+Route::get('cities', 'App\Http\Controllers\Api\CityApiController@index')->name('api.city.index');
+Route::get('cities/{slug}', 'App\Http\Controllers\Api\CityApiController@byCity')->name('api.city.slug');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
