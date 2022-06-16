@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\CityCandidateController;
+use App\Http\Controllers\Admin\FieldValueController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,9 @@ Route::prefix('admin')
     Route::post('cities/{id}/values', [FieldValueController::class, 'store'])->name('fieldvalues.store');
     Route::post('cities/{id}/votes', [CityCandidateController::class, 'store'])->name('cities.candidates.store');
     Route::resource('cities', CityController::class);
+    
+    Route::get('test', [TestController::class, 'index'])->name('test.index');
+    Route::get('test/{slug}', [TestController::class, 'byCity'])->name('test.bycity');
 
 });
 

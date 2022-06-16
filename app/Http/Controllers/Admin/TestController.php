@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CityHomeResource;
-use App\Models\Candidate;
-use App\Models\City;
-use App\Models\GroupField;
-use App\Models\Responsibility;
+use App\Models\{
+    Candidate,
+    Responsibility,
+    City,
+    GroupField
+};
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class CityApiController extends Controller
+class TestController extends Controller
 {
     protected City $repository;
     protected Candidate $candidate;
@@ -32,6 +34,37 @@ class CityApiController extends Controller
     public function index()
     {
         // return CityHomeResource::collection($this->repository->all());
+
+
+        $result = DB::table('cities')
+            ->select(
+                'cities.*',
+                'candidates.name AS candidate_name',
+                'city_candidates.votes_pp',
+                'candidates.responsibility_id AS cargo_id',
+                'responsibilities.title AS cargo',
+            )
+            ->join('city_candidates', 'cities.id', '=', 'city_candidates.city_id')
+            ->join('candidates', 'city_candidates.candidate_id', '=', 'candidates.id')
+            ->join('responsibilities', 'candidates.responsibility_id', '=', 'responsibilities.id')
+            ->orderBy('cities.name')
+            ->where('candidates.main', 1)->get();
+        $a = [];
+        foreach($result as $city) {
+            // $a[$city->slug] = [];
+            $a[$city->slug]['slug'] = $city->slug;
+            $a[$city->slug]['name'] = $city->name;
+            $a[$city->slug]['ibge_cod'] = $city->ibge_cod;
+            $ll = Str::slug($city->cargo, '_');
+            $a[$city->slug][$ll] = [];
+            $a[$city->slug][$ll]['candidate_name'] = $city->candidate_name;
+            $a[$city->slug][$ll]['votes'] = $city->votes_pp;
+        }
+
+        return ['data' => $a];
+        // return ['data' => $result];
+        return view('admin.pages.cities.create', ['data' => $result]);
+
         $cities = $this->repository->orderBy('name', 'asc')->get();
         $responsibilities = $this->responsibility->all();
         $result = [];
@@ -55,51 +88,7 @@ class CityApiController extends Controller
             }
             $result[] = $cityResult;
         }
-        return ['data' => $result];
-    }
-
-
-    public function index2()
-    {
-        $result = DB::table('cities')
-            ->select(
-                'cities.*',
-                'candidates.name AS candidate_name',
-                'city_candidates.votes_pp',
-                'candidates.responsibility_id AS cargo_id',
-                'responsibilities.title AS cargo',
-            )
-            ->leftJoin('city_candidates', 'cities.id', '=', 'city_candidates.city_id')
-            ->leftJoin('candidates', function($join){
-                $join->on('city_candidates.candidate_id', '=', 'candidates.id')
-                ->where('candidates.main', 1);
-            })
-            ->leftJoin('responsibilities', 'candidates.responsibility_id', '=', 'responsibilities.id')
-            ->orderBy('cities.name')->get();
-        // dd($result);
-        $a = [];
-        for ($i=0; $i < count($result); $i++) {
-            $city = $result[$i];
-            $a[$city->slug]['slug'] = $city->slug;
-            $a[$city->slug]['name'] = $city->name;
-            $a[$city->slug]['ibge_cod'] = $city->ibge_cod;
-            $ll = Str::slug($city->cargo, '_');
-            $a[$city->slug][$ll] = [];
-            $a[$city->slug][$ll]['candidate_name'] = $city->candidate_name;
-            $a[$city->slug][$ll]['votes'] = $city->votes_pp;
-            $a[$city->slug][$ll]['cargo'] = $city->cargo;
-        }
-        // foreach( as $city) {
-        //     $a[$city->slug]['slug'] = $city->slug;
-        //     $a[$city->slug]['name'] = $city->name;
-        //     $a[$city->slug]['ibge_cod'] = $city->ibge_cod;
-        //     $ll = Str::slug($city->cargo, '_');
-        //     $a[$city->slug][$ll] = [];
-        //     $a[$city->slug][$ll]['candidate_name'] = $city->candidate_name;
-        //     $a[$city->slug][$ll]['votes'] = $city->votes_pp;
-        // }
-
-        return ['data' => $a];
+        return view('admin.pages.cities.create', ['data' => $result]);
     }
 
 
@@ -125,6 +114,7 @@ class CityApiController extends Controller
             $groupField['field'] = $field;
         }
         $city['groupFields'] = $groupFields;
+        return view('admin.pages.cities.create', ['data' => $city]);
 
         return $city;
 
@@ -155,5 +145,4 @@ class CityApiController extends Controller
         // }
         // return ['data' => $result];
     }
-    
 }
