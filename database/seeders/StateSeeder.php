@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class CitiesSeeder extends Seeder
+class StateSeeder extends Seeder
 {
     /**
      * Run the database seeds.
