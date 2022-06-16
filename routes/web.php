@@ -1,9 +1,16 @@
 <?php
 
-use App\Http\Controllers\Admin\CityCandidateController;
-use App\Http\Controllers\Admin\FieldValueController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\{
+    HomeController as AdminHomeController,
+    FieldController,
+    CandidateController,
+    FieldValueController,
+    CityController,
+    CityCandidateController,
+    ResponsibilityController,
+    GroupFieldController,
+};
 use App\Http\Controllers\Admin\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
