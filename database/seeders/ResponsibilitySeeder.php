@@ -15,8 +15,8 @@ class ResponsibilitySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('responsabilities')->insert(["title" => "Governador"],);
-        DB::table('responsabilities')->insert(["title" => "Deputado Estadual",],);
-        DB::table('responsabilities')->insert(["title" => "Deputado Federal",],);
+        DB::table('responsibilities')->insert(["title" => "Governador"],);
+        DB::table('responsibilities')->insert(["title" => "Deputado Estadual",],);
+        DB::table('responsibilities')->insert(["title" => "Deputado Federal",],);
     }
 }
