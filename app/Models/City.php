@@ -23,9 +23,9 @@ class City extends Model
         $this->belongsTo(State::class);
     }
 
-    public function cadidates()
+    public function candidates()
     {
-        return $this->belongsToMany(Candidate::class);
+        return $this->belongsToMany(Candidate::class, 'city_candidates');
     }
 
     public function fieldValue()

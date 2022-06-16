@@ -103,6 +103,33 @@ class CityApiController extends Controller
     }
 
 
+    public function index3()
+    {
+        $cities = $this->repository->all();//orderBy('name', 'asc')->get();
+        $result = [];
+        foreach($cities as $city) {
+            $cityResult = [];
+            $cityResult['name'] = $city->name;
+            $cityResult['slug'] = $city->slug;
+            $cityResult['ibge_cod'] = $city->ibge_cod;
+            $candidates = [];
+            foreach($city->candidates()->where('candidates.main', 1)->withPivot('votes_pp')->get() as $candidate) {
+                
+                $can = $candidate->toArray();
+                $can['votes'] = $can['pivot']['votes_pp'] ?? null;
+                unset($can['pivot']);
+                $cargo = $candidate->responsibility->toArray();
+                $can['responsibility'] = $cargo['title'] ?? null;
+
+                $candidates[] = $can;
+            }
+            $cityResult['candidates'] = $candidates;
+            $result[] = $cityResult;
+        }
+        return $result;
+    }
+
+
 
     public function byCity($slug)
     {

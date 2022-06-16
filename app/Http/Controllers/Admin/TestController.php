@@ -36,34 +36,63 @@ class TestController extends Controller
         // return CityHomeResource::collection($this->repository->all());
 
 
-        $result = DB::table('cities')
-            ->select(
-                'cities.*',
-                'candidates.name AS candidate_name',
-                'city_candidates.votes_pp',
-                'candidates.responsibility_id AS cargo_id',
-                'responsibilities.title AS cargo',
-            )
-            ->join('city_candidates', 'cities.id', '=', 'city_candidates.city_id')
-            ->join('candidates', 'city_candidates.candidate_id', '=', 'candidates.id')
-            ->join('responsibilities', 'candidates.responsibility_id', '=', 'responsibilities.id')
-            ->orderBy('cities.name')
-            ->where('candidates.main', 1)->get();
-        $a = [];
-        foreach($result as $city) {
-            // $a[$city->slug] = [];
-            $a[$city->slug]['slug'] = $city->slug;
-            $a[$city->slug]['name'] = $city->name;
-            $a[$city->slug]['ibge_cod'] = $city->ibge_cod;
-            $ll = Str::slug($city->cargo, '_');
-            $a[$city->slug][$ll] = [];
-            $a[$city->slug][$ll]['candidate_name'] = $city->candidate_name;
-            $a[$city->slug][$ll]['votes'] = $city->votes_pp;
-        }
+        // $result = DB::table('cities')
+        //     ->select(
+        //         'cities.*',
+        //         'candidates.name AS candidate_name',
+        //         'city_candidates.votes_pp',
+        //         'candidates.responsibility_id AS cargo_id',
+        //         'responsibilities.title AS cargo',
+        //     )
+        //     ->join('city_candidates', 'cities.id', '=', 'city_candidates.city_id')
+        //     ->join('candidates', 'city_candidates.candidate_id', '=', 'candidates.id')
+        //     ->join('responsibilities', 'candidates.responsibility_id', '=', 'responsibilities.id')
+        //     ->orderBy('cities.name')
+        //     ->where('candidates.main', 1)->get();
+        // $a = [];
+        // foreach($result as $city) {
+        //     // $a[$city->slug] = [];
+        //     $a[$city->slug]['slug'] = $city->slug;
+        //     $a[$city->slug]['name'] = $city->name;
+        //     $a[$city->slug]['ibge_cod'] = $city->ibge_cod;
+        //     $ll = Str::slug($city->cargo, '_');
+        //     $a[$city->slug][$ll] = [];
+        //     $a[$city->slug][$ll]['candidate_name'] = $city->candidate_name;
+        //     $a[$city->slug][$ll]['votes'] = $city->votes_pp;
+        // }
 
-        return ['data' => $a];
+        // return ['data' => $a];
         // return ['data' => $result];
+        // return view('admin.pages.cities.create', ['data' => $result]);
+
+
+        $cities = $this->repository->all();//orderBy('name', 'asc')->get();
+        $result = [];
+        foreach($cities as $city) {
+            $cityResult = [];
+            $cityResult['name'] = $city->name;
+            $cityResult['slug'] = $city->slug;
+            $cityResult['ibge_cod'] = $city->ibge_cod;
+            // $cityResult['candidate'] = [];
+            $candidates = [];
+            foreach($city->candidates()->where('candidates.main', 1)->withPivot('votes_pp')->get() as $candidate) {
+                
+                $can = $candidate->toArray();
+                $can['votes'] = $can['pivot']['votes_pp'] ?? null;
+                unset($can['pivot']);
+                $cargo = $candidate->responsibility->toArray();
+                $can['responsibility'] = $cargo['title'] ?? null;//$candidate->responsibility->toArray();
+
+                $candidates[] = $can;
+            }
+            $cityResult['candidates'] = $candidates;
+            $result[] = $cityResult;
+        }
+        // dd($result);
         return view('admin.pages.cities.create', ['data' => $result]);
+
+
+
 
         $cities = $this->repository->orderBy('name', 'asc')->get();
         $responsibilities = $this->responsibility->all();
