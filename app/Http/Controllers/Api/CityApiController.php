@@ -44,7 +44,7 @@ class CityApiController extends Controller
                 $responsibilityResult = ['title' => $responsibility->title, 'id' => $responsibility->id];
                 $candidate = $this->candidate->where('responsibility_id', $responsibility->id)->where('main', 1)->first();
                 if(!empty($candidate)) {
-                    $responsibilityResult['cadidate'] = [
+                    $responsibilityResult['candidate'] = [
                         'name' => $candidate->name ?? null,
                         'votes' => $candidate->votesByCityId($city->id)->votes_pp ?? null
                     ];
