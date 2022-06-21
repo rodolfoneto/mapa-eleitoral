@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\{
     CityCandidateController,
     ResponsibilityController,
     GroupFieldController,
+    UserController,
 };
 use App\Http\Controllers\Admin\TestController;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,7 @@ Route::prefix('admin')
     Route::post('cities/{id}/values', [FieldValueController::class, 'store'])->name('fieldvalues.store');
     Route::post('cities/{id}/votes', [CityCandidateController::class, 'store'])->name('cities.candidates.store');
     Route::resource('cities', CityController::class);
+    Route::resource('users', UserController::class);
     
     Route::get('test', [TestController::class, 'index'])->name('test.index');
     Route::get('test/{slug}', [TestController::class, 'byCity'])->name('test.bycity');

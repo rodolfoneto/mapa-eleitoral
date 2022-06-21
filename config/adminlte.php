@@ -229,7 +229,7 @@ return [
         [
             'type'         => 'navbar-search',
             'text'         => 'buscar',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         [
             'type'         => 'fullscreen-widget',
@@ -237,10 +237,10 @@ return [
         ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -263,6 +263,13 @@ return [
         [
             'text'        => 'Candidatos',
             'url'         => 'admin/candidates',
+            'icon'        => 'fas fa-layer-group',
+            // 'label'       => 4,
+            // 'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Usuários',
+            'url'         => 'admin/users',
             'icon'        => 'fas fa-layer-group',
             // 'label'       => 4,
             // 'label_color' => 'success',
